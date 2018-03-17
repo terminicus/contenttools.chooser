@@ -7,7 +7,14 @@ window.addEventListener('load', function() {
 
     ContentTools.DEFAULT_TOOLS[0].push('restrictedImage')
     ContentTools.DEFAULT_TOOLS[0].push('restrictedLink')
-    ContentTools.RestrictedImageDialog.IMAGE_GALLERY = ContentTools.RestrictedImageDialog.EXAMPLE_IMAGE_GALLERY
+    // ContentTools.RestrictedImageDialog.IMAGE_GALLERY = ContentTools.RestrictedImageDialog.EXAMPLE_IMAGE_GALLERY
+
+    ContentTools.RestrictedImageDialog.IMAGE_GALLERY = function (dialog) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/pics", false);
+        xhttp.send();
+        dialog.setSource(JSON.parse(xhttp.response));
+    };
 
     editor = ContentTools.EditorApp.get();
     editor.init('*[data-editable]', 'data-name');
