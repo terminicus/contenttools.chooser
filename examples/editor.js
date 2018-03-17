@@ -15,6 +15,13 @@ window.addEventListener('load', function() {
         xhttp.send();
         dialog.setSource(JSON.parse(xhttp.response));
     };
+    
+    ContentTools.RestrictedLinkDialog.LINK_LIST = function (dialog) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/links", false);
+        xhttp.send();
+        dialog.setSource(JSON.parse(xhttp.response));
+    };
 
     editor = ContentTools.EditorApp.get();
     editor.init('*[data-editable]', 'data-name');

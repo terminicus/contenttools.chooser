@@ -144,7 +144,7 @@ class ContentTools.RestrictedImageDialog extends ContentTools.DialogUI
             ])
         , 1 * 1000)
 
-class ContentTools.Tools.Link extends ContentTools.Tools.Bold
+class ContentTools.Tools.RestrictedLinkTool extends ContentTools.Tools.Bold
 
     # Insert/Remove a link.
 
@@ -422,13 +422,13 @@ class ContentTools.RestrictedLinkDialog extends ContentTools.DialogUI
             )
         @_domInput.setAttribute('type', 'text')
         @_domInput.setAttribute('value', @_href)
-        @_domElement.appendChild(@_domInput)
+        # @_domElement.appendChild(@_domInput)
 
         # Create a toggle button to allow users to toogle between no target and
         # TARGET (open in a new window).
         @_domTargetButton = @constructor.createDiv([
             'ct-anchored-dialog__target-button'])
-        @_domElement.appendChild(@_domTargetButton)
+        # @_domElement.appendChild(@_domTargetButton)
 
         # Check if the new window target has already been set for the link
         if @_target == NEW_WINDOW_TARGET
@@ -439,12 +439,15 @@ class ContentTools.RestrictedLinkDialog extends ContentTools.DialogUI
 
         # Create the confirm button
         @_domButton = @constructor.createDiv(['ct-anchored-dialog__button'])
-        @_domElement.appendChild(@_domButton)
+        # @_domElement.appendChild(@_domButton)
 
         # Add interaction handlers
         @_addDOMEventListeners()
 
-    save: () ->
+        if @constructor.LINK_LIST
+            @constructor.LINK_LIST(this)
+
+    save: (value) ->
         # Save the link. This method triggers the save method against the dialog
         # allowing the calling code to listen for the `save` event and manage
         # the outcome.
@@ -453,7 +456,7 @@ class ContentTools.RestrictedLinkDialog extends ContentTools.DialogUI
             @dispatchEvent(@createEvent('save'))
             return
 
-        detail = {href: @_domInput.value.trim()}
+        detail = {href: value}
         if @_target
             detail.target = @_target
 
@@ -520,3 +523,39 @@ class ContentTools.RestrictedLinkDialog extends ContentTools.DialogUI
         @_domButton.addEventListener 'click', (ev) =>
             ev.preventDefault()
             @save()
+
+        @_domView.addEventListener 'click', (ev) =>
+            if ev.target.className.indexOf('link-button') == -1
+                return
+            
+            ev.preventDefault()
+            target = ev.target.getAttribute('data-target')
+            @save(target)
+
+
+    setSource: (links) =>
+        domView = @_domView
+        linkNodes = (links||[]).map((link) => 
+            row = document.createElement("div")
+            text = document.createElement("span")
+            text.innerHTML = link
+
+            row.appendChild(text)
+
+            domButton = @constructor.createDiv(['ct-anchored-dialog__button link-button'])
+            domButton.setAttribute('data-target', link)
+            row.appendChild(domButton)
+
+            row
+        ).forEach((node) -> 
+            domView.appendChild(node)
+        )
+
+    @EXAMPLE_LINK_LIST = (dialog) ->
+        console.log('fetching links...')
+        setTimeout(() -> 
+            console.log('fetched links')
+            dialog.setSource([
+                'https://www.placecage.com/gif/200/300'
+            ])
+        , 1 * 1000)
