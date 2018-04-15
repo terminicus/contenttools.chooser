@@ -559,29 +559,68 @@ class ContentTools.RestrictedLinkDialog extends ContentTools.DialogUI
             @save(target)
 
 
-    setSource: (links) =>
+    setSource: (linkList) ->
         domView = @_domView
-        linkNodes = (links||[]).map((link) => 
-            row = document.createElement("div")
-            text = document.createElement("span")
-            text.innerHTML = link
+        domView.style.overflowY="scroll";
+        table = document.createElement('table')
+        table.style.width= "100%"
+        thead = document.createElement('thead')
+        
+        nameTitle = document.createElement('th')
+        nameTitle.textContent = "Name"
 
-            row.appendChild(text)
+        descTitle = document.createElement('th')
+        descTitle.textContent = "Description"
+
+        linkTitle = document.createElement('th')
+        linkTitle.textContent = ""
+
+        thead.appendChild(nameTitle)
+        thead.appendChild(descTitle)
+        thead.appendChild(linkTitle)
+
+        tbody = document.createElement('tbody')
+        table.appendChild(thead)
+        table.appendChild(tbody)
+
+        tags = linkList.forEach (link) => 
+            tr = document.createElement('tr')
+            name = document.createElement('td')
+            name.textContent=link.name
+            name.style.verticalAlign='middle'
+            desc = document.createElement('td')
+            desc.textContent=link.desc
+            desc.style.verticalAlign='middle'
+            linkCol = document.createElement('td')
+            linkCol.style.textAlign='right'
+            
 
             domButton = @constructor.createDiv(['ct-anchored-dialog__button link-button'])
-            domButton.setAttribute('data-target', link)
-            row.appendChild(domButton)
+            domButton.setAttribute('data-target', link.target)
+            linkCol.appendChild(domButton)
 
-            row
-        ).forEach((node) -> 
-            domView.appendChild(node)
-        )
+            tr.appendChild(name)
+            tr.appendChild(desc)
+            tr.appendChild(linkCol)
 
-    @EXAMPLE_LINK_LIST = (dialog) ->
-        console.log('fetching links...')
-        setTimeout(() -> 
-            console.log('fetched links')
-            dialog.setSource([
-                'https://www.placecage.com/gif/200/300'
-            ])
-        , 1 * 1000)
+            tbody.appendChild(tr)
+
+        domView.appendChild(table)
+
+    # setSource: (links) =>
+        # domView = @_domView
+        # linkNodes = (links||[]).map((link) => 
+        #     row = document.createElement("div")
+        #     text = document.createElement("span")
+        #     text.innerHTML = link
+
+        #     row.appendChild(text)
+
+        #     domButton = @constructor.createDiv(['ct-anchored-dialog__button link-button'])
+        #     domButton.setAttribute('data-target', link)
+        #     row.appendChild(domButton)
+
+        #     row
+        # ).forEach((node) -> 
+        #     domView.appendChild(node)
+        # )

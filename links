@@ -1,3 +1,5 @@
 [
-    "https://www.placecage.com/gif/200/200"
+    {"target": "http://www.placecage.com/", "name": "placecage", "desc": "Place cage"},
+    {"target": "http://www.fillmurray.com/", "name": "fillmurray", "desc": "fill murray"},
+    {"target": "http://www.stevensegallery.com/", "name": "stevensegallery", "desc": "Such Emotions :'("}
 ]
