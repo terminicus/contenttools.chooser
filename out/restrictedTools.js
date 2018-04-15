@@ -103,17 +103,46 @@
     }
 
     setSource(imglist) {
-      var domView, tags;
-      tags = imglist.map(function(img) {
-        var tag;
-        tag = document.createElement('img');
-        tag.setAttribute('src', img.src);
-        return tag;
-      });
+      var descTitle, domView, imgTitle, nameTitle, table, tags, tbody, thead;
       domView = this._domView;
-      return tags.forEach(function(tag) {
-        return domView.appendChild(tag);
+      domView.style.overflowY = "scroll";
+      table = document.createElement('table');
+      table.style.width = "100%";
+      thead = document.createElement('thead');
+      nameTitle = document.createElement('th');
+      nameTitle.textContent = "Name";
+      descTitle = document.createElement('th');
+      descTitle.textContent = "Description";
+      imgTitle = document.createElement('th');
+      imgTitle.textContent = "Image";
+      thead.appendChild(nameTitle);
+      thead.appendChild(descTitle);
+      thead.appendChild(imgTitle);
+      tbody = document.createElement('tbody');
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      tags = imglist.forEach(function(img) {
+        var desc, imgCol, imgEl, name, tr;
+        tr = document.createElement('tr');
+        name = document.createElement('td');
+        name.textContent = img.name;
+        name.style.verticalAlign = 'middle';
+        desc = document.createElement('td');
+        desc.textContent = img.desc;
+        desc.style.verticalAlign = 'middle';
+        imgCol = document.createElement('td');
+        imgCol.style.textAlign = 'right';
+        imgEl = document.createElement('img');
+        imgEl.setAttribute('src', img.thumb || img.src);
+        imgEl.setAttribute('width', img.thumbWidth || 150);
+        imgEl.setAttribute('height', img.thumbHeight || 150);
+        imgCol.appendChild(imgEl);
+        tr.appendChild(name);
+        tr.appendChild(desc);
+        tr.appendChild(imgCol);
+        return tbody.appendChild(tr);
       });
+      return domView.appendChild(table);
     }
 
     _addDOMEventListeners() {
@@ -139,33 +168,6 @@
         'imageSize': imageSize,
         'imageAttrs': imageAttrs
       }));
-    }
-
-    static EXAMPLE_IMAGE_GALLERY(dialog) {
-      console.log('fetching imglist...');
-      return setTimeout(function() {
-        console.log('fetched imglist');
-        return dialog.setSource([
-          {
-            src: 'https://www.placecage.com/gif/200/300'
-          },
-          {
-            src: 'https://www.placecage.com/gif/200/100'
-          },
-          {
-            src: 'https://www.placecage.com/gif/250/250'
-          },
-          {
-            src: 'https://www.placecage.com/gif/300/200'
-          },
-          {
-            src: 'https://www.placecage.com/gif/400/400'
-          },
-          {
-            src: 'https://www.placecage.com/gif/200/200'
-          }
-        ]);
-      }, 1 * 1000);
     }
 
   };

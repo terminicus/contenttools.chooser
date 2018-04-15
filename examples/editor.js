@@ -7,7 +7,6 @@ window.addEventListener('load', function() {
 
     ContentTools.DEFAULT_TOOLS[0].push('restrictedImage')
     ContentTools.DEFAULT_TOOLS[0].push('restrictedLink')
-    // ContentTools.RestrictedImageDialog.IMAGE_GALLERY = ContentTools.RestrictedImageDialog.EXAMPLE_IMAGE_GALLERY
 
     ContentTools.RestrictedImageDialog.IMAGE_GALLERY = function (dialog) {
         var xhttp = new XMLHttpRequest();

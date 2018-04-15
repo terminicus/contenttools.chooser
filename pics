@@ -1,3 +1,6 @@
 [
-                { "src": "https://www.placecage.com/gif/200/200"}
+    { "src": "https://www.placecage.com/gif/200/200", "name": "Cage1", "desc":"some cage"},
+    { "src": "https://www.placecage.com/gif/200/200", "name": "Cage2", "desc":"some cage"},
+    { "src": "https://www.placecage.com/gif/200/200", "name": "Cage3", "desc":"some cage", "thumbWidth": 300},
+    { "src": "https://www.placecage.com/gif/400/400", "name": "Cage4", "desc":"some cage"}
 ]
